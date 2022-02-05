@@ -1,9 +1,11 @@
 import imp
 from itertools import product
 from rest_framework import viewsets, status
-from .models import Product
+from .models import Product, User
 from .serializers import ProductSerializer
 from rest_framework.response import Response
+from rest_framework.views import APIView
+import random
 
 class ProductViewSet(viewsets.ViewSet):
     def list(self, request):        #/api/products
@@ -35,3 +37,11 @@ class ProductViewSet(viewsets.ViewSet):
         product = Product.objects.get(id=pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserAPIView(APIView):
+    def get(self, _):
+        users = User.objects.all()
+        user = random.choice(users)
+        return Response({
+            'id': user.id
+        })
