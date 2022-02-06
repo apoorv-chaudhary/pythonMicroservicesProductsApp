@@ -7,6 +7,16 @@ connection = pika.BlockingConnection(params)
 
 channel = connection.channel()
 
-def publish():
-    channel.basic_publish(exchange='', routing_key='main', body='hello main')
+channel.queue_declare(queue='main')
 
+def callback(ch, method, properties, body):
+    print("Received in main")
+    print(body)
+
+channel.basic_consume(queue='main', on_message_callback=callback)
+
+print('Started Consuming')
+
+channel.start_consuming()
+
+channel.close()
