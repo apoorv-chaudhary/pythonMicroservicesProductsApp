@@ -1,6 +1,6 @@
-import imp
-from itertools import product
 from rest_framework import viewsets, status
+
+from .producer import publish
 from .models import Product, User
 from .serializers import ProductSerializer
 from rest_framework.response import Response
@@ -11,6 +11,7 @@ class ProductViewSet(viewsets.ViewSet):
     def list(self, request):        #/api/products
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
+        publish()
         return Response(serializer.data)
 
     
