@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import UniqueConstraint
@@ -25,9 +25,9 @@ class ProductUser(db.Model):
 
 
 
-@app.route('/')
+@app.route('/api/products')
 def index():
-    return 'Hello'
+    return jsonify(Product.query.all())
 
 
 if __name__ == "__main__":
